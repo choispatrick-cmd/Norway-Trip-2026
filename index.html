@@ -547,8 +547,22 @@
       marker.bindTooltip(`${i+1}. ${s.name}`, {direction:'top', offset:[0,-8]});
       marker.bindPopup(`<strong>${s.name}</strong><br>${s.note}`);
     });
-    L.polyline(latlngs, {color:'#8B93F0', weight:2, opacity:0.5, dashArray:'4,6'}).addTo(map);
     map.fitBounds(L.latLngBounds(latlngs), {padding:[28,28]});
+
+    // Highlight the actual road driven between the two accommodations (not a straight line through every stop)
+    const start = data.stops.find(s=>s.kind==='start');
+    const end = data.stops.find(s=>s.kind==='end');
+    if(start && end){
+      fetch(`https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${end.lng},${end.lat}?overview=full&geometries=geojson`)
+        .then(res=>res.json())
+        .then(json=>{
+          const coords = json.routes[0].geometry.coordinates.map(c=>[c[1], c[0]]);
+          L.polyline(coords, {color:'#8B93F0', weight:4, opacity:0.8}).addTo(map);
+        })
+        .catch(()=>{
+          L.polyline([[start.lat,start.lng],[end.lat,end.lng]], {color:'#8B93F0', weight:2, opacity:0.5, dashArray:'4,6'}).addTo(map);
+        });
+    }
   }
 
   function buildStopList(elId, data){
