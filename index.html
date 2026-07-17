@@ -190,6 +190,13 @@
   .stop-num.activity{ background: rgba(185,139,240,0.2); color:var(--aurora-c); }
   .stop-name{ font-weight:600; font-size:14.5px; }
   .stop-note{ color:var(--paper-dim); font-size:13.5px; margin-top:2px; }
+  .map-pin{
+    width:22px; height:22px; border-radius:50%; border:2px solid #0A1B26;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#0A1B26;
+    box-shadow:0 1px 3px rgba(0,0,0,0.45);
+  }
+  .map-pin.endpoint{ width:26px; height:26px; font-size:12px; }
   .stop-kind{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--paper-dim); margin-left:auto; padding-top:4px; white-space:nowrap;}
 
   footer{ text-align:center; padding:40px 22px 60px; color:var(--paper-dim); font-family:'IBM Plex Mono',monospace; font-size:12px; }
@@ -540,10 +547,14 @@
       latlngs.push([s.lat, s.lng]);
       const isEndpoint = s.kind==='start' || s.kind==='end';
       const color = isEndpoint ? '#F4F0E4' : kindColor(s.kind);
-      const marker = L.circleMarker([s.lat, s.lng], {
-        radius: isEndpoint ? 7 : 9,
-        fillColor: color, color: '#0A1B26', weight:2, fillOpacity:1
-      }).addTo(map);
+      const size = isEndpoint ? 26 : 22;
+      const icon = L.divIcon({
+        className: '',
+        html: `<div class="map-pin${isEndpoint ? ' endpoint' : ''}" style="background:${color}">${i+1}</div>`,
+        iconSize: [size, size],
+        iconAnchor: [size/2, size/2]
+      });
+      const marker = L.marker([s.lat, s.lng], {icon}).addTo(map);
       marker.bindTooltip(`${i+1}. ${s.name}`, {direction:'top', offset:[0,-8]});
       marker.bindPopup(`<strong>${s.name}</strong><br>${s.note}`);
     });
