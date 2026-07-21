@@ -33,6 +33,7 @@
     font-family:'Inter', -apple-system, sans-serif;
     font-size:16px;
     line-height:1.55;
+    overflow-x:hidden;
   }
   ::selection{ background: var(--aurora-a); color:var(--midnight); }
 
@@ -57,7 +58,8 @@
   }
   nav .brand{ font-family:'Fraunces',serif; font-weight:600; font-size:17px; }
   nav .brand span{ color: var(--aurora-a); }
-  nav ul{ list-style:none; display:flex; gap:4px; margin:0; padding:0; }
+  nav ul{ list-style:none; display:flex; gap:4px; margin:0; padding:0 0 2px; flex:1; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  nav li{ flex:none; }
   nav a.nav-link{
     font-family:'IBM Plex Mono', monospace;
     font-size:11.5px; text-transform:uppercase; letter-spacing:0.06em;
