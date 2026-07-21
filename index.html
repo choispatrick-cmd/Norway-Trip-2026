@@ -211,6 +211,36 @@
   .link-list .desc{ display:block; color:var(--paper-dim); font-size:12.5px; font-weight:400; margin-top:2px; }
   .stop-num.ferry-icon{ background: rgba(185,139,240,0.2); color:var(--aurora-c); }
 
+  /* ---------- Eat & Drink ---------- */
+  .eat-filters{ margin-bottom:22px; }
+  .filter-group{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
+  .filter-label{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--paper-dim); width:64px; flex:none; }
+  .chip{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:transparent; color:var(--paper-dim); cursor:pointer; transition:all .2s ease; }
+  .chip:hover{ color:var(--paper); border-color:var(--paper-dim); }
+  .chip.active{ background:var(--paper); color:var(--midnight); border-color:var(--paper); }
+  .filter-row{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+  .filter-row select{ font-family:'IBM Plex Mono',monospace; font-size:12px; padding:8px 12px; border-radius:999px; background:var(--panel); color:var(--paper); border:1px solid var(--line); cursor:pointer; }
+  #sort-drive{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--fjord-2); color:var(--paper); cursor:pointer; transition:all .2s ease; }
+  #sort-drive:hover{ border-color:var(--aurora-a); }
+  #eat-count{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--paper-dim); margin-left:auto; }
+  #eat-list{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:640px){ #eat-list{ grid-template-columns:1fr; } .filter-label{ width:100%; margin-bottom:-2px; } }
+  .eat-card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; }
+  .eat-top{ display:flex; justify-content:space-between; align-items:baseline; gap:10px; }
+  .eat-name{ font-family:'Fraunces',serif; font-size:17px; text-decoration:none; color:var(--paper); }
+  .eat-name:hover{ color:var(--aurora-a); }
+  .price{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; padding:3px 8px; border-radius:6px; flex:none; }
+  .price.cheap{ background:rgba(94,234,212,0.15); color:var(--aurora-a); }
+  .price.moderate{ background:rgba(217,178,106,0.18); color:var(--gold); }
+  .price.expensive{ background:rgba(193,80,46,0.2); color:#F0A387; }
+  .eat-meta{ display:flex; gap:7px; flex-wrap:wrap; align-items:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--paper-dim); margin-top:6px; }
+  .eat-type{ color:var(--aurora-c); }
+  .eat-dot{ opacity:.5; }
+  .eat-drive{ margin-left:auto; color:var(--paper); }
+  .eat-note{ color:var(--paper-dim); font-size:13px; line-height:1.5; margin-top:10px; flex:1; }
+  .eat-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+  .pill.meal{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; padding:3px 8px; border-radius:6px; background:var(--fjord-2); color:var(--paper-dim); }
+
   footer{ text-align:center; padding:40px 22px 60px; color:var(--paper-dim); font-family:'IBM Plex Mono',monospace; font-size:12px; }
 
   .leaflet-container{ background:#0F2836 !important; font-family:'Inter',sans-serif; }
@@ -225,6 +255,7 @@
     <li><a class="nav-link" href="#hikes">Hikes</a></li>
     <li><a class="nav-link" href="#drives">Drive Days</a></li>
     <li><a class="nav-link" href="#ferry">Ferry</a></li>
+    <li><a class="nav-link" href="#eat">Eat</a></li>
   </ul>
 </nav>
 
@@ -612,6 +643,54 @@
   </div>
 </section>
 
+<!-- ============ EAT & DRINK ============ -->
+<section id="eat">
+  <div class="section-head"><span class="section-num">05</span><h2>Eat &amp; drink</h2></div>
+  <p class="section-desc">Cafés and restaurants around our three bases plus the airport, mostly within ~30 min of where we're sleeping (a couple on Senja are flagged a touch further). Filter by area, meal, price and cuisine, then sort by how far it is. <b>Heads-up:</b> many of these are small and seasonal — hours shrink or close after late August, so confirm before setting out.</p>
+
+  <div class="eat-filters">
+    <div class="filter-group" data-group="area">
+      <span class="filter-label">Area</span>
+      <button class="chip active" data-group="area" data-value="all">All</button>
+      <button class="chip" data-group="area" data-value="reine">Reine / Hamnøy</button>
+      <button class="chip" data-group="area" data-value="kabelvag">Kabelvåg</button>
+      <button class="chip" data-group="area" data-value="senja">Skaland, Senja</button>
+      <button class="chip" data-group="area" data-value="evenes">Evenes airport</button>
+    </div>
+    <div class="filter-group" data-group="meal">
+      <span class="filter-label">Meal</span>
+      <button class="chip" data-group="meal" data-value="breakfast">Breakfast</button>
+      <button class="chip" data-group="meal" data-value="lunch">Lunch</button>
+      <button class="chip" data-group="meal" data-value="dinner">Dinner</button>
+    </div>
+    <div class="filter-group" data-group="price">
+      <span class="filter-label">Price</span>
+      <button class="chip" data-group="price" data-value="cheap">Cheap</button>
+      <button class="chip" data-group="price" data-value="moderate">Moderate</button>
+      <button class="chip" data-group="price" data-value="expensive">Expensive</button>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">Cuisine</span>
+      <select id="cuisine-filter">
+        <option value="all">All cuisines</option>
+        <option value="Seafood">Seafood</option>
+        <option value="Norwegian">Norwegian</option>
+        <option value="Café">Café</option>
+        <option value="Bakery">Bakery</option>
+        <option value="Fine dining">Fine dining</option>
+        <option value="Pub/Bar">Pub / Bar</option>
+        <option value="Fusion">Fusion</option>
+        <option value="Grill/Fast food">Grill / Fast food</option>
+        <option value="International">International</option>
+      </select>
+      <button id="sort-drive">Drive time: nearest first ↑</button>
+      <span id="eat-count"></span>
+    </div>
+  </div>
+
+  <div id="eat-list"></div>
+</section>
+
 </main>
 
 <footer>Built for Patrick &amp; Elizabeth · Nordland, Aug–Sep 2026</footer>
@@ -729,6 +808,99 @@
   buildMap('map-drive2', drive2);
   buildStopList('stops-drive1', drive1);
   buildStopList('stops-drive2', drive2);
+
+  // ---- Eat & drink ----
+  const eats = [
+    // Reine / Hamnøy (base: Eliassen Rorbuer, Hamnøy)
+    {name:"Gadus", area:"reine", type:"Seafood", meals:["dinner"], price:"moderate", drive:2, q:"Gadus restaurant Hamnøy Lofoten", note:"Old white cabin serving seafood pasta & fish soup with an Italian touch. Small — book ahead."},
+    {name:"Anita's Seafood", area:"reine", type:"Seafood", meals:["lunch"], price:"cheap", drive:4, q:"Anitas Sjømat Sakrisøy Lofoten", note:"Iconic yellow-cabin seafood counter on Sakrisøy — famous fishcakes & fish burgers. Daytime only; seasonal hours."},
+    {name:"Underhuset", area:"reine", type:"Fusion", meals:["dinner"], price:"moderate", drive:4, q:"Underhuset Sakrisøy Lofoten", note:"Mexican-Norwegian family spot doing seafood tacos. Tiny — reserve. Seasonal."},
+    {name:"Gammelbua", area:"reine", type:"Norwegian", meals:["dinner"], price:"expensive", drive:6, q:"Gammelbua Reine Rorbuer Lofoten", note:"Reine Rorbuer's cozy restaurant for stockfish, cod & Arctic classics. Dinner reservations advised."},
+    {name:"Tapperiet", area:"reine", type:"Pub/Bar", meals:["lunch","dinner"], price:"moderate", drive:6, q:"Tapperiet Reine Lofoten", note:"Laid-back square-side bar with pizzas & Norwegian plates. Seasonal hours."},
+    {name:"Café Reine", area:"reine", type:"Café", meals:["breakfast","lunch"], price:"cheap", drive:6, q:"Café Reine Lofoten", note:"Cozy coffee & light-bite stop in Reine centre with a small gift shop."},
+    {name:"Maren Anna", area:"reine", type:"Seafood", meals:["dinner"], price:"moderate", drive:12, q:"Maren Anna Sørvågen Lofoten", note:"Waterfront red-house restaurant & bar in Sørvågen; seafood-forward. Seasonal."},
+    {name:"Restaurant Havet", area:"reine", type:"Fine dining", meals:["dinner"], price:"expensive", drive:13, q:"Restaurant Havet The Tide hotel Sørvågen", note:"Big-window fine dining at The Tide hotel with harbour views. Dinner; reserve."},
+    {name:"Bakeriet i Å", area:"reine", type:"Bakery", meals:["breakfast","lunch"], price:"cheap", drive:18, q:"Bakeriet i Å Lofoten", note:"Historic bakery in Å for cinnamon buns & fresh bread. Mornings; seasonal."},
+    {name:"Brygga Restaurant (Å)", area:"reine", type:"Seafood", meals:["dinner"], price:"moderate", drive:18, q:"Brygga Restaurant Å Lofoten", note:"Harbour restaurant in Å village serving local seafood. Seasonal."},
+    // Kabelvåg (base: Nyvågar Rorbuhotell)
+    {name:"Restaurant Nyvågar", area:"kabelvag", type:"Norwegian", meals:["breakfast","dinner"], price:"expensive", drive:0, q:"Restaurant Nyvågar Rorbuhotell Kabelvåg", note:"Our hotel's own restaurant — stockfish ravioli, halibut & lamb with fjord views."},
+    {name:"Brygga (Kabelvåg)", area:"kabelvag", type:"Pub/Bar", meals:["lunch","dinner"], price:"moderate", drive:3, q:"Brygga Restaurant Kabelvåg Lofoten", note:"Central harbour pub-restaurant (ex-Prestengbrygga) for casual Norwegian plates."},
+    {name:"Hjørnet Kafé", area:"kabelvag", type:"Café", meals:["breakfast","lunch"], price:"cheap", drive:3, q:"Hjørnet Kafé Kabelvåg", note:"Organic café & bakery with Keans Beans coffee and excellent pizza & bread."},
+    {name:"Bakeri Unseld", area:"kabelvag", type:"Bakery", meals:["breakfast"], price:"cheap", drive:3, q:"Bakeri Unseld Kabelvåg", note:"Artisan bakery-café; superb cinnamon buns & pastries baked on site. Mornings."},
+    {name:"Børsen Spiseri", area:"kabelvag", type:"Seafood", meals:["dinner"], price:"expensive", drive:12, q:"Børsen Spiseri Svinøya Svolvær", note:"Historic quayside stockfish restaurant at Svinøya — a Lofoten classic. Reserve."},
+    {name:"Bacalao", area:"kabelvag", type:"Pub/Bar", meals:["lunch","dinner"], price:"moderate", drive:12, q:"Bacalao Svolvær", note:"Trendy harbour bistro-bar with a year-round heated patio."},
+    {name:"Paleo Arctic", area:"kabelvag", type:"Fine dining", meals:["dinner"], price:"expensive", drive:12, q:"Paleo Arctic Thon Hotel Svolvær", note:"Thon Hotel's New-Nordic fine-dining menus. Dinner; reserve."},
+    {name:"Fru Haugen", area:"kabelvag", type:"Norwegian", meals:["lunch","dinner"], price:"moderate", drive:12, q:"Fru Haugen Svolvær", note:"Long-running Svolvær restaurant & bar with Norwegian comfort food."},
+    {name:"Fiskekrogen", area:"kabelvag", type:"Seafood", meals:["lunch","dinner"], price:"expensive", drive:28, q:"Fiskekrogen Henningsvær Lofoten", note:"Henningsvær's famous harbourside seafood house (est. 1989) — try the fish soup. Reserve."},
+    {name:"Henningsvær Lysstøperi & Café", area:"kabelvag", type:"Café", meals:["breakfast","lunch"], price:"moderate", drive:28, q:"Henningsvær Lysstøperi og Café", note:"Candle-factory café in Henningsvær beloved for cinnamon buns & coffee."},
+    // Skaland, Senja (base: Airbnb, Skaland)
+    {name:"Senja Matstudio", area:"senja", type:"Norwegian", meals:["lunch","dinner"], price:"moderate", drive:5, q:"Senja Matstudio Skaland", note:"Skaland kitchen-studio doing local Norwegian dishes & wood-fired bread. Limited days/hours — check ahead & book."},
+    {name:"Storbrygga Spiseri", area:"senja", type:"Seafood", meals:["lunch","dinner"], price:"expensive", drive:18, q:"Storbrygga Spiseri Hamn i Senja", note:"Hamn i Senja resort restaurant; fresh cod, skrei & fish soup with harbour views. Seasonal; reserve."},
+    {name:"Salteriet (Mefjord Brygge)", area:"senja", type:"Seafood", meals:["breakfast","lunch","dinner"], price:"moderate", drive:27, q:"Salteriet Mefjord Brygge Mefjordvær Senja", note:"Mefjord Brygge's maritime restaurant/bar with a local 'yttersida' menu, breakfast to dinner. Seasonal."},
+    {name:"Roalden Kafé og Mathus", area:"senja", type:"Café", meals:["lunch"], price:"cheap", drive:28, q:"Roalden Kafé og Mathus Senja", note:"Small café / food house on Senja's west coast. ⚠︎ Limited & seasonal — verify it's open before going."},
+    {name:"Segla Grill og Pub", area:"senja", type:"Grill/Fast food", meals:["lunch","dinner"], price:"cheap", drive:40, q:"Segla Grill og Pub Fjordgård Senja", note:"Grill & pub in Fjordgård with fjord views. ⚠︎ ~40 min from Skaland — just over the 30-min mark. Seasonal."},
+    // Near Evenes airport (base: Aiden by Best Western — last night)
+    {name:"Aiden restaurant", area:"evenes", type:"International", meals:["breakfast","dinner"], price:"moderate", drive:0, q:"Aiden by Best Western Harstad Narvik Airport", note:"Our airport hotel's restaurant — international menu for dinner plus a continental breakfast buffet. Easiest option for the early flight."},
+    {name:"Evenes Grill & Bar", area:"evenes", type:"Grill/Fast food", meals:["lunch","dinner"], price:"cheap", drive:3, q:"Evenes Grill & Bar", note:"Quick grill & burgers right by the airport (Truckstoppen). Casual & cheap."},
+    {name:"En Smak Av, Kafé og Spiseri", area:"evenes", type:"Café", meals:["breakfast","lunch"], price:"moderate", drive:15, q:"En Smak Av Kafé og Spiseri Evenskjer", note:"Café & spiseri in Evenskjer (~15 min) for lunch & light meals. Daytime; check hours."},
+  ];
+
+  const areaLabels = {reine:'Reine / Hamnøy', kabelvag:'Kabelvåg', senja:'Skaland, Senja', evenes:'Evenes airport'};
+  const priceLabels = {cheap:'Cheap', moderate:'Moderate', expensive:'Expensive'};
+  const eatState = { area:'all', meals:new Set(), prices:new Set(), cuisine:'all', sortAsc:true };
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  function mapsUrl(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
+
+  function renderEats(){
+    const list = document.getElementById('eat-list');
+    let items = eats.filter(e=>{
+      if(eatState.area !== 'all' && e.area !== eatState.area) return false;
+      if(eatState.meals.size && ![...eatState.meals].some(m=>e.meals.includes(m))) return false;
+      if(eatState.prices.size && !eatState.prices.has(e.price)) return false;
+      if(eatState.cuisine !== 'all' && e.type !== eatState.cuisine) return false;
+      return true;
+    });
+    items.sort((a,b)=> eatState.sortAsc ? a.drive - b.drive : b.drive - a.drive);
+    list.innerHTML = items.map(e=>{
+      const meals = e.meals.map(m=>`<span class="pill meal">${cap(m)}</span>`).join('');
+      const drive = e.drive === 0 ? 'on-site' : '~'+e.drive+' min';
+      return `<div class="eat-card">
+        <div class="eat-top">
+          <a class="eat-name" href="${mapsUrl(e.q)}" target="_blank" rel="noopener">${e.name} ↗</a>
+          <span class="price ${e.price}">${priceLabels[e.price]}</span>
+        </div>
+        <div class="eat-meta">
+          <span class="eat-type">${e.type}</span><span class="eat-dot">·</span><span class="eat-area">${areaLabels[e.area]}</span>
+          <span class="eat-drive">${drive}</span>
+        </div>
+        <div class="eat-note">${e.note}</div>
+        <div class="eat-tags">${meals}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('eat-count').textContent = items.length + (items.length === 1 ? ' place' : ' places');
+  }
+
+  document.querySelectorAll('#eat .chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      const g = chip.dataset.group, v = chip.dataset.value;
+      if(g === 'area'){
+        eatState.area = v;
+        document.querySelectorAll('#eat .chip[data-group="area"]').forEach(c=>c.classList.toggle('active', c === chip));
+      } else {
+        const set = g === 'meal' ? eatState.meals : eatState.prices;
+        if(set.has(v)){ set.delete(v); chip.classList.remove('active'); }
+        else { set.add(v); chip.classList.add('active'); }
+      }
+      renderEats();
+    });
+  });
+  document.getElementById('cuisine-filter').addEventListener('change', e=>{ eatState.cuisine = e.target.value; renderEats(); });
+  document.getElementById('sort-drive').addEventListener('click', function(){
+    eatState.sortAsc = !eatState.sortAsc;
+    this.textContent = eatState.sortAsc ? 'Drive time: nearest first ↑' : 'Drive time: farthest first ↓';
+    renderEats();
+  });
+  renderEats();
 </script>
 
 </body>
